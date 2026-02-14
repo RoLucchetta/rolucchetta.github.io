@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar nuevo préstamo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.6s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .header h1 span {
+            font-size: 48px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .campo {
+            margin-bottom: 5px;
+        }
+        
+        .campo-full {
+            grid-column: span 2;
+        }
+        
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        
+        label i {
+            font-style: normal;
+            margin-right: 5px;
+            font-size: 16px;
+        }
+        
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .prefix {
+            position: absolute;
+            left: 15px;
+            color: #666;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+        
+        input[type="number"] {
+            padding-left: 40px;
+        }
+        
+        input[type="text"] {
+            padding-left: 15px;
+        }
+        
+        input[type="date"] {
+            padding-left: 15px;
+        }
+        
+        .helper {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #f5f7ff 0%, #eef2ff 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0 25px;
+            border: 2px solid #667eea;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.1);
+        }
+        
+        .info-box h3 {
+            color: #2c3e50;
+            font-size: 18px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-box h3 span {
+            font-size: 24px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .info-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #2c3e50;
+            line-height: 1.2;
+        }
+        
+        .info-value small {
+            font-size: 12px;
+            font-weight: normal;
+            color: #666;
+            margin-left: 5px;
+        }
+        
+        .badge {
+            background: #4CAF50;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 50px;
+            font-size: 11px;
+            margin-left: 8px;
+        }
+        
+        .acciones {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 18px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            box-shadow: 0 10px 20px rgba(108, 117, 125, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            background: #5a6268;
+        }
+        
+        .footer-note {
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px dashed #ddd;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .campo-full {
+                grid-column: span 1;
+            }
+            
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .acciones {
+                flex-direction: column;
+            }
+            
+            .card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h1>
+                    <span>💰</span> 
+                    Registrar nuevo préstamo
+                </h1>
+                <p>Completá los datos para generar la simulación</p>
+            </div>
+
+            <form id="prestamoForm">
+                <div class="grid">
+                    <!-- ID Préstamo (opcional) -->
+                    <div class="campo">
+                        <label><i>🔢</i> ID del préstamo</label>
+                        <input type="text" id="id_prestamo" placeholder="Ej: PR-001">
+                        <div class="helper">
+                            ℹ️ Si no completás, se genera automático
+                        </div>
+                    </div>
+
+                    <!-- Fecha de inicio -->
+                    <div class="campo">
+                        <label><i>📅</i> Fecha de inicio</label>
+                        <input type="date" id="fecha_inicio" required>
+                    </div>
+
+                    <!-- Capital en pesos -->
+                    <div class="campo">
+                        <label><i>💵</i> Capital a prestar ($)</label>
+                        <div class="input-group">
+                            <span class="prefix">$</span>
+                            <input type="number" id="capital_pesos" placeholder="1.000.000" min="1" step="1000" required>
+                        </div>
+                    </div>
+
+                    <!-- Plazo -->
+                    <div class="campo">
+                        <label><i>📊</i> Plazo (meses)</label>
+                        <input type="number" id="plazo" min="1" max="60" value="12" required>
+                    </div>
+
+                    <!-- Tasa mensual -->
+                    <div class="campo">
+                        <label><i>📈</i> Tasa mensual (%)</label>
+                        <div class="input-group">
+                            <span class="prefix">%</span>
+                            <input type="number" id="tasa_mensual" min="0.1" max="20" step="0.1" value="6.0" required>
+                        </div>
+                    </div>
+
+                    <!-- Tipo de cambio -->
+                    <div class="campo">
+                        <label><i>💱</i> Tipo de cambio USD/ARS</label>
+                        <div class="input-group">
+                            <span class="prefix">$</span>
+                            <input type="number" id="tipo_cambio" step="0.01" placeholder="1392.24" value="1392.24">
+                        </div>
+                        <div class="helper">
+                            🌎 Opcional, para ver valores en USD
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vista previa en vivo -->
+                <div class="info-box">
+                    <h3>
+                        <span>🔮</span>
+                        Vista previa del préstamo
+                    </h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">TNA</span>
+                            <span class="info-value" id="preview_tna">0<span>%</span></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">TEA</span>
+                            <span class="info-value" id="preview_tea">0<span>%</span></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Total a pagar</span>
+                            <span class="info-value" id="preview_total">$0</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Cuota mensual</span>
+                            <span class="info-value" id="preview_cuota">$0</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Intereses totales</span>
+                            <span class="info-value" id="preview_intereses">$0</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Capital USD</span>
+                            <span class="info-value" id="preview_usd">USD 0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="acciones">
+                    <button type="submit" class="btn-primary" id="btnEnviar">
+                        🚀 Calcular préstamo
+                    </button>
+                    <button type="button" class="btn-secondary" onclick="window.location.reload()">
+                        🔄 Limpiar todo
+                    </button>
+                </div>
+            </form>
+
+            <div class="footer-note">
+                ⚡ Los valores se actualizan automáticamente mientras completás los datos
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Elementos del formulario
+        const idInput = document.getElementById('id_prestamo');
+        const fechaInput = document.getElementById('fecha_inicio');
+        const capitalInput = document.getElementById('capital_pesos');
+        const plazoInput = document.getElementById('plazo');
+        const tasaInput = document.getElementById('tasa_mensual');
+        const tcInput = document.getElementById('tipo_cambio');
+        const btnEnviar = document.getElementById('btnEnviar');
+        
+        // Elementos de preview
+        const previewTNA = document.getElementById('preview_tna');
+        const previewTEA = document.getElementById('preview_tea');
+        const previewTotal = document.getElementById('preview_total');
+        const previewCuota = document.getElementById('preview_cuota');
+        const previewIntereses = document.getElementById('preview_intereses');
+        const previewUSD = document.getElementById('preview_usd');
+
+        // Configurar fecha por defecto (hoy)
+        const hoy = new Date();
+        const fechaFormateada = hoy.toISOString().split('T')[0];
+        fechaInput.value = fechaFormateada;
+
+        // Generar ID automático
+        idInput.value = 'PR-' + Date.now().toString().slice(-6);
+
+        // Función para actualizar vista previa
+        function actualizarPreview() {
+            const capital = parseFloat(capitalInput.value) || 0;
+            const plazo = parseInt(plazoInput.value) || 1;
+            const tasaMensual = (parseFloat(tasaInput.value) || 0) / 100;
+            const tc = parseFloat(tcInput.value) || null;
+
+            // Calcular TNA y TEA
+            const tna = tasaMensual * 12 * 100;
+            const tea = (Math.pow(1 + tasaMensual, 12) - 1) * 100;
+            
+            previewTNA.innerHTML = tna.toFixed(2) + '<span>%</span>';
+            previewTEA.innerHTML = tea.toFixed(2) + '<span>%</span>';
+
+            // Calcular total a devolver (interés simple sobre capital)
+            const totalIntereses = capital * tasaMensual * plazo;
+            const totalPagar = capital + totalIntereses;
+            const cuotaMensual = plazo > 0 ? totalPagar / plazo : 0;
+
+            // Formatear y mostrar
+            previewTotal.textContent = '$' + totalPagar.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            previewCuota.textContent = '$' + cuotaMensual.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            previewIntereses.textContent = '$' + totalIntereses.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            // Calcular USD si hay tipo de cambio
+            if (tc && tc > 0) {
+                const capitalUSD = capital / tc;
+                previewUSD.textContent = 'USD ' + capitalUSD.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            } else {
+                previewUSD.textContent = 'USD 0';
+            }
+        }
+
+        // Event listeners para actualizar en tiempo real
+        capitalInput.addEventListener('input', actualizarPreview);
+        plazoInput.addEventListener('input', actualizarPreview);
+        tasaInput.addEventListener('input', actualizarPreview);
+        tcInput.addEventListener('input', actualizarPreview);
+
+        // Inicializar preview
+        actualizarPreview();
+
+        // Enviar formulario a n8n
+        document.getElementById('prestamoForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Validar campos obligatorios
+            if (!capitalInput.value || !plazoInput.value || !tasaInput.value) {
+                alert('Por favor completá todos los campos obligatorios');
+                return;
+            }
+
+            // Recolectar datos
+            const formData = {
+                id_prestamo: idInput.value,
+                fecha_inicio: fechaInput.value,
+                capital_pesos: parseFloat(capitalInput.value),
+                plazo: parseInt(plazoInput.value),
+                tasa_mensual: parseFloat(tasaInput.value),
+                tipo_cambio: parseFloat(tcInput.value) || null,
+                tna_calculada: parseFloat(previewTNA.textContent),
+                tea_calculada: parseFloat(previewTEA.textContent)
+            };
+
+            console.log('Enviando datos:', formData); // Para debug
+
+            // Deshabilitar botón
+            const originalText = btnEnviar.innerHTML;
+            btnEnviar.innerHTML = '⏳ Calculando...';
+            btnEnviar.disabled = true;
+
+            try {
+                // 🔴 REEMPLAZÁ ESTA URL CON LA DE TU WEBHOOK DE N8N
+                const response = await fetch('https://brukin.app.n8n.cloud/webhook-test/3e005471-a040-460f-954d-7414559c21ef', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    // Si el webhook devuelve HTML (Form Ending), lo mostramos
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('text/html')) {
+                        const html = await response.text();
+                        document.open();
+                        document.write(html);
+                        document.close();
+                    } else {
+                        // Si devuelve JSON u otra cosa
+                        const data = await response.json();
+                        alert('Préstamo calculado correctamente. ID: ' + (data.id || ''));
+                        window.location.reload();
+                    }
+                } else {
+                    throw new Error('Error en el servidor: ' + response.status);
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+                btnEnviar.innerHTML = originalText;
+                btnEnviar.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
